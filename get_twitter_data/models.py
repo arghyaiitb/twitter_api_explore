@@ -27,10 +27,10 @@ class Tweets(models.Model):
 
 class Users(models.Model):
     id = models.BigIntegerField(primary_key=True)  # user id of a person
-    location = models.CharField(max_length=100, default=None, null=True)  # the location of the user
-    name = models.CharField(max_length=200, default=None, null=True)  # name of the user
-    description = models.TextField()  # description of the user / like bio
-    screen_name = models.CharField(max_length=100, default=None, null=True)  # unique user name for using @user name
+    location = models.CharField(max_length=100, default=None, null=True, blank=True)  # the location of the user
+    name = models.CharField(max_length=200, default=None, null=True, blank=True)  # name of the user
+    description = models.TextField(default=None, null=True, blank=True)  # description of the user / like bio
+    screen_name = models.CharField(max_length=100, default=None, null=True, blank=True)  # unique user name for using @user name
     verified = models.BooleanField(default=False)  # to see if the user is verified or not
     created_at = models.DateTimeField()  # when the user was created
     favourites_count = models.IntegerField(default=0)  # number of likes
