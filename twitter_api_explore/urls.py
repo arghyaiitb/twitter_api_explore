@@ -21,4 +21,5 @@ urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^get_twitter_data/', include('get_twitter_data.urls', namespace="get_twitter_data")),
     url(r'^custom_search/', include('custom_search.urls', namespace="custom_search")) ,
+    url(r'^csv_dump_data/', include('csv_dump.urls', namespace="csv_dump")) ,
 ]
