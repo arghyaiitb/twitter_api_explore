@@ -20,4 +20,5 @@ from django.conf.urls import url, include
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^get_twitter_data/', include('get_twitter_data.urls', namespace="get_twitter_data")),
+    url(r'^custom_search/', include('custom_search.urls', namespace="custom_search")) ,
 ]

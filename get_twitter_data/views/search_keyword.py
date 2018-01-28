@@ -17,7 +17,24 @@ asecret = settings.TWITTER_ASECRET
 ckey = settings.TWITTER_CKEY
 csecret = settings.TWITTER_CSECRET
 
+'''
+input:
+{
+"search_key" : "#BTC", #string
+"load_limit" : 99 , #int
+"tweet_lang" : "en", # string to search tweets only for a particular language
+"tweet_since" : 2018-01-28 #date feild
+}
 
+Output:
+Status code 200
+{
+"users_added": 12,
+"tweets_added": 10
+}
+
+
+'''
 @api_view(['POST'])
 def search_keyword(request):
     if request.method == 'POST':
@@ -36,22 +53,26 @@ def search_keyword(request):
                         count=100, lang=tweet_language,
                         since=tweet_since, tweet_mode='extended').items()
         i = 0
+        users_added = 0
+        tweets_added = 0
         for tweet in tweets:
             i += 1
             if i >= load_limit:
                 break
             if not Tweets.objects.filter(id=tweet.id):
-                process_tweet_data(tweet, search_key)
+                if process_tweet_data(tweet, search_key):
+                    tweets_added +=1
             else:
                 print('Tweet already exists')
                 pass
             user_id = tweet.author.id
             if not Users.objects.filter(id=user_id):
-                process_user_data(tweet.author)
+                if process_user_data(tweet.author):
+                    users_added += 1
             else:
                 print('user already exists')
                 # pass
-        return Response(status=status.HTTP_200_OK)
+        return Response(data={'tweets_added': tweets_added, 'users_added': users_added}, status=status.HTTP_201_CREATED)
 
 
 def process_tweet_data(tweet, twitter_search_term):
@@ -73,9 +94,11 @@ def process_tweet_data(tweet, twitter_search_term):
     new_tweet_serializer = TweetsSerializer(data=new_tweet)
     if new_tweet_serializer.is_valid():
         new_tweet_serializer.save()
+        return True
     else:
         print('ERROR WHILE SAVING NEW TWEET')
         print(new_tweet_serializer.errors)
+        return False
 
 
 def get_hashtags_array(hashtags):
@@ -111,6 +134,8 @@ def process_user_data(twitter_user_object):
     user_data_serializer = UsersSerializer(data=user_object)
     if user_data_serializer.is_valid():
         user_data_serializer.save()
+        return True
     else:
         print('ERROR WHILE SAVING USER')
         print(user_data_serializer.errors)
+        return False
