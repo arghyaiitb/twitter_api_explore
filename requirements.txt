@@ -1,0 +1,8 @@
+Django==1.11.2
+djangorestframework==3.6.3
+psycopg2==2.7.1
+pytz==2017.2
+django-cors-headers==2.1.0
+aiohttp==2.2.3
+gunicorn==19.7.1
+tweepy==3.5.0
