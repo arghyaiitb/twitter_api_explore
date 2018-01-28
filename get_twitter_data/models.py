@@ -10,7 +10,7 @@ class Tweets(models.Model):
     text = models.TextField()  # the original tweet if not full
     full_text = models.TextField() # the full tweet text
     timestamp_ms = models.DateTimeField()  # epoch time when the tweet was done
-    user_id = models.CharField(max_length=32)  # match user data to tweet
+    user_id = models.BigIntegerField()  # match user data to tweet
     favourite_count = models.IntegerField(default=0)  # likes on the tweet
     lang = models.CharField(max_length='10')  # language of the tweet
     geo_location = JSONField()  # location tagged in the tweet
