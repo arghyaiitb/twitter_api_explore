@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import os
+import configparser
+
+
+config = configparser.ConfigParser()
+config.read(os.path.join(os.path.dirname(__file__),'config.ini'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +26,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c$pp20m$nps#na+z^(ew_+p@42x+)ar4w2##78xf1s3q3#c6()'
+SECRET_KEY = config['DJANGO']['SECRET_KEY']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config['DJANGO'].getboolean('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config['DJANGO']['ALLOWED_HOSTS']
 
 
 # Application definition
@@ -36,6 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'csv_dump',
+    'custom_search',
+    'get_twitter_data',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'twitter_api_explore.urls'
 
@@ -75,8 +88,12 @@ WSGI_APPLICATION = 'twitter_api_explore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config['DATABASE']['NAME'],
+        'USER': config['DATABASE']['USER'],
+        'PASSWORD': config['DATABASE']['PASSWORD'],
+        'HOST': config['DATABASE']['HOST'],
+        'PORT': config['DATABASE']['PORT'],
     }
 }
 
@@ -118,3 +135,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+TWITTER_CKEY = config['TWITTER']['ckey']
+TWITTER_CSECRET = config['TWITTER']['csecret']
+TWITTER_ATOKEN = config['TWITTER']['atoken']
+TWITTER_ASECRET = config['TWITTER']['asecret']

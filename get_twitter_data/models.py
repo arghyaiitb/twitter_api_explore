@@ -12,13 +12,13 @@ class Tweets(models.Model):
     timestamp_ms = models.DateTimeField()  # epoch time when the tweet was done
     user_id = models.BigIntegerField()  # match user data to tweet
     favourite_count = models.IntegerField(default=0)  # likes on the tweet
-    lang = models.CharField(max_length='10')  # language of the tweet
+    lang = models.CharField(max_length=10)  # language of the tweet
     geo_location = JSONField()  # location tagged in the tweet
     reply_count = models.IntegerField()  # the total comments on the tweet
     retweet_count = models.IntegerField()  # total retweet on the tweet
     hashtags = ArrayField(models.CharField(max_length=280), default=[], null=True, blank=True)  # all the hastags used
     user_mentions = ArrayField(models.CharField(max_length=280), default=[], null=True, blank=True)  # all the hastags used  # all the users tages using @xyz
-    urls = ArrayField(models.CharField(max_length=280), default=[], null=True, blank=True)  # all the hastags used  # all the urls linked to the tweet
+    urls = ArrayField(models.TextField(), default=[], null=True, blank=True)  # all the hastags used  # all the urls linked to the tweet
     tweet_score = models.FloatField(default=0.0) #tf-idf algorithm
 
 
