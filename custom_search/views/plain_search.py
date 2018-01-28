@@ -1,42 +1,31 @@
-from datetime import datetime, timedelta
-from django.utils import timezone
-
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from django.conf import settings
 
-from tweepy import OAuthHandler
-from tweepy import Cursor, API
-
 # config file paramters
 from get_twitter_data.models import Tweets, Users
 from get_twitter_data.serializers import TweetsSerializer, UsersSerializer
 
-atoken = settings.TWITTER_ATOKEN
-asecret = settings.TWITTER_ASECRET
-ckey = settings.TWITTER_CKEY
-csecret = settings.TWITTER_CSECRET
-
 '''
 input:
 {
-"search_key" : "#BTC", #string
-"load_limit" : 99 , #int
-"tweet_lang" : "en", # string to search tweets only for a particular language
-"tweet_since" : 2018-01-28 #date feild
+"search_on": "tweets",
+"search_key": "BTC",
+"sort_by": ["-retweet_count","created_at"]
 }
 
 Output:
 Status code 200
 {
-"users_added": 12,
-"tweets_added": 10
+[USER_OBJECT/TWEET_OBJECT]
 }
 
 
 '''
+
+
 @api_view(['POST'])
 def plain_search(request):
     if request.method == 'POST':
