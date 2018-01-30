@@ -44,7 +44,7 @@ def group_search(request):
             print(response_serializer.data)
             return Response(response_serializer.data,status=status.HTTP_200_OK)
         else:
-            bucket_by = TruncDate('created_at')
+            bucket_by = TruncDay('created_at')
             if search_details['date_group']['bucket_by'] == 'quarter':
                 bucket_by = TruncQuarter('created_at')
             elif search_details['date_group']['bucket_by'] == 'month':
