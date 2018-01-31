@@ -1,0 +1,28 @@
+I have used postgres for this project so please install postgres first and then follow the below steps
+
+Put a 'config.ini' file in /twitter_api_explore folder where settings is present with the following data
+;***************************************
+[TWITTER]
+ckey = VrjVY
+csecret = 9IVYtrFf
+atoken = 956883270
+asecret = wsTPg54v  ; replace with twitter api key
+
+[DATABASE]
+NAME = experiment_db
+USER = argo
+PASSWORD = argo
+HOST = xxx.xx.x.x ; REPLACE THE POSTGRES DB DETAILS
+PORT = 5433
+
+[DJANGO]
+DEBUG = True
+ALLOWED_HOSTS = ['*']
+SECRET_KEY = c$pp20m$nps#na+z^(ew_+p@42x+)ar4w2##78xf1s3q3#c6()
+;***************************************
+
+then
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
